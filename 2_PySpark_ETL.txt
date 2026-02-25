@@ -1,0 +1,271 @@
+# E-Commerce Transaction Analytics Pipeline
+## PySpark ETL Solution for Cross-Border Sales Analysis
+
+**Author:** Jarosław Błaziński  
+**Project Type:** Portfolio Demonstration (Databricks-ready)  
+**Tech Stack:** PySpark 3.x, Python 3.8+  
+**Dataset Size:** ~500,000 transactions
+
+---
+
+## 📋 Business Problem
+
+An e-commerce company operating across European markets (Poland, Germany, UK) faces challenges with their transaction data analysis:
+
+### Key Issues:
+1. **Data Quality Problems**
+   - ~15% of transaction records contain NULL values in critical fields (transaction_id, amount)
+   - Negative amounts (refunds/chargebacks) are mixed with regular sales, skewing revenue reports
+   - Inconsistent data types preventing accurate calculations
+
+2. **Manual VAT Calculations**
+   - Finance team manually calculates VAT for different EU markets
+   - Error-prone Excel-based processes
+   - Difficult to audit and reconcile
+
+3. **Lack of Performance Insights**
+   - No automated way to identify top-performing categories per market
+   - Management cannot quickly answer: "Which product categories drive revenue in each country?"
+   - Delayed monthly reports (3-5 days manual processing)
+
+4. **Scalability Issues**
+   - Current Excel-based solution breaks with >100k rows
+   - Growing to 500k+ transactions monthly
+   - Need for big data processing capability
+
+---
+
+## 💡 Solution Overview
+
+This project demonstrates a **production-ready PySpark ETL pipeline** that:
+
+✅ **Cleanses** transaction data with automated quality checks  
+✅ **Transforms** raw data into analytics-ready format with proper VAT calculations  
+✅ **Enriches** transactions with country dimension data  
+✅ **Analyzes** performance using advanced SQL operations (window functions, aggregations)  
+✅ **Scales** to handle 500k+ records efficiently  
+
+### Business Value:
+- ⏱️ **Reduced processing time:** 3-5 days → **<15 minutes**
+- 📊 **Automated insights:** Real-time ranking of top categories per country
+- ✅ **Data quality:** Built-in validation and logging
+- 🔍 **Audit trail:** Complete data lineage and quality metrics
+
+---
+
+## 🏗️ Technical Architecture
+
+```
+Raw Data (CSV)
+     ↓
+[Data Quality Assessment]
+     ↓
+[Data Cleaning Layer]
+  - Remove NULL values
+  - Filter invalid transactions
+  - Type casting
+     ↓
+[Transformation Layer]
+  - VAT calculation (23% Polish rate)
+  - Dimension enrichment (country names)
+  - Derived metrics
+     ↓
+[Analytics Layer]
+  - Aggregations by country/category
+  - Window functions (ranking)
+  - Performance metrics
+     ↓
+[Output Layer]
+  - Partitioned Parquet files
+  - Quality reports
+```
+
+---
+
+## 📂 Project Structure
+
+```
+├── PySpark_ETL_Advanced.ipynb    # Main ETL pipeline notebook
+├── README.md                      # This file
+├── input_data.csv                 # Sample dataset (generated in notebook)
+└── output_data/                   # Results (created by pipeline)
+    ├── cleaned_transactions/
+    ├── analytics_summary/
+    └── quality_metrics/
+```
+
+---
+
+## 🚀 Key Features Demonstrated
+
+### 1. **Data Quality Framework**
+```python
+# Automated quality checks with metrics
+- Row count validation
+- NULL value detection and reporting
+- Negative amount identification (refunds)
+- Distribution analysis
+```
+
+### 2. **Advanced PySpark Transformations**
+- **Window Functions:** Ranking categories within each country
+- **Joins:** Enrichment with dimension tables (SCD handling ready)
+- **Aggregations:** Multi-level grouping (country + category)
+- **Complex Filters:** Business logic for valid transactions
+
+### 3. **Performance Optimization**
+- Proper partitioning for large datasets
+- Efficient use of `.coalesce()` and `.repartition()`
+- Caching strategy for reused DataFrames
+- Broadcast joins for small dimension tables
+
+### 4. **Production-Ready Patterns**
+- Parameterized configuration (VAT rate, file paths)
+- Comprehensive logging with Python `logging` module
+- Error handling and data validation
+- Before/After metrics for audit trail
+
+---
+
+## 📊 Sample Results
+
+### Input Data Quality Report:
+```
+Total rows: 500,000
+Null amounts: 75,000 (15%)
+Negative amounts: 25,000 (5%)
+```
+
+### After Cleaning:
+```
+Valid transactions: 400,000 (80% retention)
+Data quality score: 95%+
+```
+
+### Top Categories by Country (sample output):
+```
++-------+----------+-------------+-----------------+
+|country|category  |total_revenue|rank_in_country  |
++-------+----------+-------------+-----------------+
+|PL     |IT        |125,430.50   |1                |
+|PL     |Finance   |98,220.30    |2                |
+|DE     |Retail    |87,650.20    |1                |
+```
+
+---
+
+## 🛠️ How to Run
+
+### Prerequisites:
+- Python 3.8+
+- PySpark 3.x
+- Jupyter Notebook or Databricks workspace
+
+### Option 1: Local Execution
+```bash
+# Install dependencies
+pip install pyspark jupyter
+
+# Launch notebook
+jupyter notebook PySpark_ETL_Advanced.ipynb
+
+# Run all cells (data is generated automatically)
+```
+
+### Option 2: Databricks
+1. Import `PySpark_ETL_Advanced.ipynb` to Databricks workspace
+2. Attach to cluster (DBR 11.3+ recommended)
+3. Run all cells
+4. Modify paths to use DBFS: `dbfs:/FileStore/...`
+
+### Configuration:
+Edit these parameters in the notebook:
+```python
+VAT_RATE = 0.23              # Polish VAT rate
+USE_SAMPLE_DATA = True       # Set False to use external CSV
+INPUT_PATH = "your/path"     # Optional: external data source
+OUTPUT_PATH = "your/path"    # Output location
+```
+
+---
+
+## 📈 Skills Demonstrated
+
+### PySpark Expertise:
+- ✅ DataFrame API (transformations, actions)
+- ✅ SQL functions (`col`, `lit`, `when`, aggregations)
+- ✅ Window functions (`dense_rank`, `row_number`, `lag/lead`)
+- ✅ Joins (inner, left, broadcast)
+- ✅ Data I/O (CSV, Parquet with partitioning)
+
+### Data Engineering Best Practices:
+- ✅ Data quality validation
+- ✅ Logging and monitoring
+- ✅ Parameterization and configuration management
+- ✅ Code modularity and readability
+- ✅ Performance optimization
+
+### Databricks-Ready:
+- ✅ Notebook-based development
+- ✅ Easily portable to DBFS/Delta Lake
+- ✅ Follows Databricks coding standards
+- ✅ Ready for orchestration (Workflows/Jobs)
+
+---
+
+## 🎯 Real-World Applications
+
+This pipeline pattern can be adapted for:
+- **Retail Analytics:** Product performance analysis
+- **Financial Services:** Transaction monitoring and compliance
+- **Marketing:** Campaign performance tracking
+- **Supply Chain:** Inventory turnover analysis
+- **SaaS:** Usage analytics and billing reconciliation
+
+---
+
+## 🔄 Future Enhancements
+
+To make this production-grade, consider adding:
+- [ ] Delta Lake integration for ACID transactions
+- [ ] Incremental loading (CDC pattern)
+- [ ] Unit tests with `pytest` + `chispa`
+- [ ] CI/CD pipeline (GitHub Actions + Databricks)
+- [ ] Data quality framework (Great Expectations)
+- [ ] Streaming version with Structured Streaming
+- [ ] ML integration (anomaly detection on amounts)
+
+---
+
+## 📝 Notes for Recruiters
+
+**This is a portfolio demonstration project**, not production code from a previous employer. It showcases:
+
+1. **Technical competency** in PySpark and Databricks-ready development
+2. **Business thinking** - solving real problems, not just coding exercises  
+3. **Best practices** - logging, validation, optimization
+4. **Scalability mindset** - designed for 500k+ rows, not toy datasets
+
+**Honest disclaimer:** I have not worked hands-on with Databricks in a corporate production environment. This project demonstrates my ability to:
+- Learn and apply Databricks/PySpark patterns independently
+- Write production-ready code following industry standards
+- Quickly ramp up on new technologies
+
+I'm eager to apply these skills in a professional Databricks environment and continue learning from experienced team members.
+
+---
+
+## 📧 Contact
+
+**Jarosław Błaziński**  
+[Your LinkedIn] | [Your Email] | [Your GitHub]
+
+---
+
+## 📄 License
+
+This project is for portfolio demonstration purposes. Feel free to use as a learning reference.
+
+---
+
+**Last Updated:** January 2026
