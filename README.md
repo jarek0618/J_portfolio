@@ -3,7 +3,7 @@
 Junior / Mid Data Engineer z doświadczeniem w PySpark, SQL Server i Apache Airflow.  
 Projekty skupiają się na praktycznych problemach: przetwarzaniu danych, automatyzacji i jakości danych.
 
-📧 [Your Email] &nbsp;|&nbsp; 💼 [LinkedIn] &nbsp;|&nbsp; 🐙 [GitHub](https://github.com/jarek0618)
+📧 [j.blazinski@gmail.com] &nbsp;|&nbsp; 💼 [LinkedIn: https://www.linkedin.com/in/jaroslaw-blazinski-8204b2186/] &nbsp;|&nbsp; 🐙 [GitHub](https://github.com/jarek0618)
 
 ---
 
