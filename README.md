@@ -1,72 +1,111 @@
-# 👋 Jarosław Błaziński – Data Engineering Portfolio
+# 👋 Jarosław Błaziński – Analytics Engineer / Data Engineering Portfolio
 
-Junior / Mid Data Engineer z doświadczeniem w PySpark, SQL Server i Apache Airflow.  
-Projekty skupiają się na praktycznych problemach: przetwarzaniu danych, automatyzacji i jakości danych.
+**Analytics Engineer   or    Junior / Mid Data Engineer** with hands-on experience in PySpark, SQL Server, Apache Airflow, and Databricks.  
+Projects focus on practical data challenges: pipeline automation, ETL/ELT processing, Medallion Architecture, data quality, and governance.
 
-📧 [j.blazinski@gmail.com] &nbsp;|&nbsp; 💼 [LinkedIn: https://www.linkedin.com/in/jaroslaw-blazinski-8204b2186/] &nbsp;|&nbsp; 🐙 [GitHub](https://github.com/jarek0618)
-
----
-
-## 🗂️ Projekty
-
-### 1. 💱 Frankfurter API – Airflow DAG pobierający kursy walut
-**Plik:** `1_Frankfurter_api_currencies.py`  
-**Tech:** Python, Apache Airflow, REST API  
-
-Automatyczny DAG uruchamiany co poniedziałek, który pobiera kursy 6 par walutowych z publicznego API Europejskiego Banku Centralnego i zapisuje je do pliku CSV gotowego do otwarcia w Excelu.
-
-**Co pokazuje:**
-- integrację z zewnętrznym REST API
-- budowę DAG-a w Apache Airflow
-- obsługę błędów i logowanie
-
-📄 README: [`1_Frankfurter_api_currencies_README.md`](1_Frankfurter_api_currencies_README.md)
+📧 [j.blazinski@gmail.com](mailto:j.blazinski@gmail.com) · 💼 [LinkedIn](https://www.linkedin.com/in/jaroslaw-blazinski-8204b2186/) · 🐙 [GitHub](https://github.com/jarek0618/J_portfolio)
 
 ---
 
-### 2. ⚡ PySpark ETL Pipeline – analityka transakcji e-commerce
-**Pliki:** `2_PySpark_ETL.ipynb`, `2_input_data.csv`  
-**Tech:** PySpark 3.x, Python 3.8+, Jupyter / Databricks  
+## 🗂️ Projects
 
-Pipeline przetwarzający ~500 000 rekordów transakcji z europejskich rynków (PL, DE, DK, SE). Obejmuje walidację jakości danych, czyszczenie, wzbogacanie o dane wymiarowe i analizę z użyciem window functions.
+### 1. 💱 Frankfurter API – Airflow DAG for Currency Rates
+**File:** `1_Frankfurter_api_currencies.py`  
+**Tech:** Python · Apache Airflow · REST API
 
-**Co pokazuje:**
-- DataFrame API, window functions (`dense_rank`), joiny, agregacje
-- automatyczną walidację jakości danych (NULLe, wartości ujemne)
-- logowanie i parametryzację konfiguracji
-- gotowość do uruchomienia na Databricks (DBFS/Delta Lake)
+A scheduled Airflow DAG (runs every Monday) that fetches exchange rates for 6 currency pairs from the European Central Bank's public API and saves them to a CSV file ready for analysis.
 
-📄 README: [`2_PySpark_ETL_README.md`](2_PySpark_ETL_README.md)
+**Key concepts:** REST API integration · DAG scheduling · error handling & logging
+
+📄 Details: [`1_Frankfurter_api_currencies_README.md`](./1_Frankfurter_api_currencies_README.md)
 
 ---
 
-### 3. 🔄 CDC Demo – Change Data Capture w SQL Server
-**Plik:** `3_CDC_Demo_SQLServer.sql`  
-**Tech:** SQL Server 2016+, T-SQL  
+### 2. ⚡ PySpark ETL Pipeline – E-commerce Transaction Analytics
+**Files:** `2_PySpark_ETL.ipynb` · `2_input_data.csv`  
+**Tech:** PySpark 3.x · Python 3.8+ · Jupyter / Databricks
 
-Kompletne demo włączenia i obsługi CDC na SQL Server. Pokazuje przechwytywanie zmian INSERT / UPDATE / DELETE, budowę audit trail oraz zapytania net changes.
+An end-to-end ETL pipeline processing ~500,000 transaction records from European markets (PL, DE, DK, SE). Covers data quality validation, cleansing, dimensional enrichment, and advanced analytics using window functions.
 
-**Co pokazuje:**
-- konfigurację CDC (`sp_cdc_enable_db`, `sp_cdc_enable_table`)
-- odczyt tabeli `cdc.dbo_Transactions_CT` z interpretacją `__$operation`
-- audit trail (wartości przed i po zmianie)
-- net changes – ostatni stan każdego rekordu
+**Key concepts:** DataFrame API · window functions (`dense_rank`) · joins & aggregations · null/negative value validation · Databricks / Delta Lake readiness
+
+📄 Details: [`2_PySpark_ETL_README.md`](./2_PySpark_ETL_README.md)
 
 ---
 
-## 🛠️ Stack technologiczny
+### 3. 🔄 CDC Demo – Change Data Capture in SQL Server
+**File:** `3_CDC_Demo_SQLServer.sql`  
+**Tech:** SQL Server 2016+ · T-SQL
 
-| Obszar | Technologie |
+A complete demo of enabling and querying CDC on SQL Server. Captures INSERT / UPDATE / DELETE changes, builds an audit trail, and queries net changes per record.
+
+**Key concepts:** CDC configuration (`sp_cdc_enable_db`, `sp_cdc_enable_table`) · `__$operation` interpretation · before/after audit trail · net changes queries
+
+---
+
+### 4. 🥉 ELT Bronze Layer – Raw Data Ingestion
+**File:** `4_ELT_Bronze.ipynb`  
+**Tech:** PySpark · Databricks · Delta Lake
+
+First layer of the Medallion Architecture. Ingests raw data from source systems into the Bronze zone with minimal transformation — preserving data as-is with added metadata (ingestion timestamp, source).
+
+**Key concepts:** Medallion Architecture · raw zone design · Delta Lake write · schema-on-read
+
+📄 Details: [`4_ELT_Bronze_README.md`](./4_ELT_Bronze_README.md)
+
+---
+
+### 5. 🥈 ELT Silver Layer – Cleansed & Conformed Data
+**File:** `5_ELT_Silver.ipynb`  
+**Tech:** PySpark · Databricks · Delta Lake
+
+Second layer of the Medallion Architecture. Applies data cleansing, deduplication, type casting, and business rules to produce a reliable, conformed dataset.
+
+**Key concepts:** data cleansing · deduplication · SCD handling · Delta Lake merge (UPSERT)
+
+📄 Details: [`5_ELT_Silver_README.md`](./5_ELT_Silver_README.md)
+
+---
+
+### 6. 🥇 ELT Gold Layer – Business-Ready Aggregations
+**File:** `6_ELT_Gold.ipynb`  
+**Tech:** PySpark · Databricks · Delta Lake
+
+Third and final layer of the Medallion Architecture. Produces aggregated, denormalized tables optimized for reporting and analytics consumption.
+
+**Key concepts:** aggregation logic · star schema design · Delta Lake optimization · BI-ready output
+
+📄 Details: [`6_ELT_Gold_README.md`](./6_ELT_Gold_README.md)
+
+---
+
+### 7. 🏛️ Data Governance
+**Files:** `7_Data_Governance.ipynb` · `data_catalog.md`  
+**Tech:** PySpark · Databricks · Delta Lake
+
+Demonstrates core data governance practices applied across the Medallion pipeline: data cataloging, lineage tracking, quality rule enforcement, and access control patterns.
+
+**Key concepts:** data catalog · column-level lineage · data quality checks · PII handling · Unity Catalog concepts
+
+📄 Details: [`7_Data_Governance_README.md`](./7_Data_Governance_README.md)
+
+---
+
+## 🛠️ Tech Stack
+
+| Area | Technologies |
 |---|---|
-| Big Data | PySpark 3.x, Databricks |
+| Big Data | PySpark 3.x, Databricks, Delta Lake |
+| Architecture | Medallion (Bronze / Silver / Gold) |
 | Orchestration | Apache Airflow |
-| Bazy danych | SQL Server, T-SQL |
-| Języki | Python 3.8+, SQL |
-| Narzędzia | Jupyter Notebook, Git |
+| Databases | SQL Server, T-SQL |
+| Data Governance | Data Catalog, Lineage, Quality Rules |
+| Languages | Python 3.8+, SQL |
+| Tools | Jupyter Notebook, Git |
 
 ---
 
-## 📝 Uwaga
+## 📝 Note
 
-Wszystkie projekty są demonstracjami portfolio — nie są to fragmenty kodu produkcyjnego z poprzednich pracodawców.  
-Celem jest pokazanie umiejętności technicznych, myślenia biznesowego i znajomości dobrych praktyk data engineering.
+All projects are portfolio demonstrations — not production code from previous employers.  
+The goal is to showcase technical skills, business thinking, and knowledge of data engineering best practices.
